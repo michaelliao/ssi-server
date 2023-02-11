@@ -13,6 +13,7 @@ Use ./ssi_server.py -g to generate html by expand shtml.
 '''
 
 __author__ = 'Michael Liao'
+__version__ = '1.0'
 
 import re, os, urllib, shutil, argparse, functools, mimetypes
 
