@@ -14,7 +14,7 @@
                     <h1>SSI Server Source Code</h1>
                     <form onsubmit="return false">
                         <div>
-                            <textarea class="form-control font-monospace" rows="20" readonly style="resize:vertical">
+                            <textarea class="form-control font-monospace" rows="24" readonly style="resize:vertical">
 <!--#include file="ssi_server.py" -->
 </textarea>
                         </div>
