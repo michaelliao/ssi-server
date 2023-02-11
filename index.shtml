@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!--#include file="inc/header.html" -->
+</head>
+
+<body>
+    <div class="container">
+        <!--#include file="inc/nav.html" -->
+        <div style="padding-top: 80px;">
+            <div class="row">
+                <div class="col-12">
+                    <h1>What is Server Side Includes</h1>
+                    <p>From WikiPedia:
+                        <a href="https://en.wikipedia.org/wiki/Server_Side_Includes">Server Side Includes</a>
+                    </p>
+                    <blockquote cite="https://en.wikipedia.org/wiki/Server_Side_Includes">
+                        <h3>Server Side Includes</h3>
+                        <p>Server Side Includes (SSI) is a simple interpreted server-side scripting language used almost
+                            exclusively for the World Wide Web. It is most useful for including the contents of one or
+                            more files into a web page on a web server (see below), using its <code>#include</code>
+                            directive. This could commonly be a common piece of code throughout a site, such as a page
+                            header, a page footer and a navigation menu. SSI also contains control directives for
+                            conditional features and directives for calling external programs. It is supported by
+                            Apache, LiteSpeed, nginx, IIS as well as W3C's Jigsaw. It has its roots in NCSA HTTPd.</p>
+                        <p>In order for a web server to recognize an SSI-enabled HTML file and therefore carry out these
+                            instructions, either the filename should end with a special extension, by default
+                            <code>.shtml</code>, <code>.stm</code>, <code>.shtm</code>, or, if the server is configured
+                            to allow this, set the execution bit of the file.
+                        </p>
+                        <h3>Examples</h3>
+                        <p>
+                            A web page containing a daily quotation could include the quotation by placing the following
+                            code into the file of the web page:</p>
+                        <pre><code>&lt;!--#include file="../quote.txt" --&gt;</code></pre>
+                        <p>
+                            With one change of the quote.txt file, all pages that include the file will display the
+                            latest daily quotation. The inclusion is not limited to files, and may also be the text
+                            output from a program, or the value of a system variable such as the current time.</p>
+                    </blockquote>
+                    <h1>What is SSI Server</h1>
+                    <p>SSI Server is a simple Python3 script that serves as HTTP server that supports SSI directive.
+                        However, it only helps HTML developers build better pages by better structure. It generates all
+                        HTML pages without SSI, and helps deploys on those servers that only support HTML. e.g. GitHub
+                        pages.</p>
+                    <p>SSI Server supports one and the only one directive: <code>include</code> with <code>file</code>:
+                    </p>
+                    <pre><code>&lt;!--#include file="inc/header.html" --&gt;</code></pre>
+                    <h3>How SSI Server Works</h3>
+                    <p>SSI Server handles <code>/index.html</code> by processing underlying <code>/index.shtml</code>.
+                        The <code>index.html</code> file is generated or updated by <code>./ssi_server.py -g</code>.
+                    </p>
+                    <h3>How to Use SSI Server</h3>
+                    <p>Download <a
+                            href="https://github.com/michaelliao/ssi-server/raw/master/ssi_server.py">ssi_server.py</a>
+                        to your www root directory and run <code>./ssi_server.py</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--#include file="inc/footer.html" -->
+</body>
+
+</html>

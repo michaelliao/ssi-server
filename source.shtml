@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!--#include file="inc/header.html" -->
+</head>
+
+<body>
+    <div class="container">
+        <!--#include file="inc/nav.html" -->
+        <div style="padding-top: 80px;">
+            <div class="row">
+                <div class="col-12">
+                    <h1>SSI Server Source Code</h1>
+                    <form onsubmit="return false">
+                        <div>
+                            <textarea class="form-control font-monospace" rows="20" readonly style="resize:vertical">
+<!--#include file="ssi_server.py" -->
+</textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--#include file="inc/footer.html" -->
+</body>
+
+</html>
