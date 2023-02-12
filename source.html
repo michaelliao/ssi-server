@@ -78,6 +78,8 @@ import re, os, urllib, shutil, argparse, functools, mimetypes
 
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler, HTTPStatus
 
+AUTO_GENERATED = 'AUTO GENERATED HTML: DO NOT MODIFY MANUALLY'
+
 DIR_IGNORE = ['node_modules', 'artifacts', 'cache', 'build', 'bin', 'tests']
 
 INCLUDE_FILE = re.compile(r'^\s*\<\!\-\-\s*\#include\s+file\=\"([a-zA-Z0-9\-\_\.\/]+)\"\s*\-\-\>\s*$')
@@ -112,9 +114,9 @@ def _expand_shtml(doc_root, fs):
     with open(os.path.join(doc_root, fs), 'r', encoding='utf-8') as fp:
         lines = fp.readlines()
     slines = [_expand_line(doc_root, line) for line in lines]
-    return '<!-- AUTO GENERATED HTML: DO NOT MODIFY MANUALLY -->\n' + ''.join(slines)
+    return f'<!-- {AUTO_GENERATED} -->\n' + ''.join(slines)
 
-def _generate(doc_root, fs):
+def _generate(doc_root, fs, force_overwrite):
     '''
     Process xxx.shtml and generate xxx.html.
     '''
@@ -124,13 +126,16 @@ def _generate(doc_root, fs):
     if os.path.exists(fh):
         with open(fh, 'r', encoding='utf-8') as fp:
             first_line = fp.readline()
-        if not first_line.startswith('<!-- AUTO GENERATED '):
-            print(f'ERROR: target file exist and it seems not auto-generated: {fh}')
-            exit(1)
+        if not first_line.startswith('<!--') or first_line.find(AUTO_GENERATED) < 0:
+            if not force_overwrite:
+                print(f'ERROR: target file exist and it seems not auto-generated: {fh}')
+                exit(1)
+            else:
+                print(f'WARNING: target file exist and it seems not auto-generated: {fh}')
     with open(fh, 'w', encoding='utf-8') as fp:
         fp.write(html)
 
-def generate(doc_root, rel_path):
+def generate(doc_root, rel_path, force_override):
     '''
     Process all .shtml and generate .html.
     '''
@@ -140,10 +145,10 @@ def generate(doc_root, rel_path):
             if f.startswith('.') or f in DIR_IGNORE:
                 print(f'ignore dir: {next_rel_path}')
             else:
-                generate(doc_root, next_rel_path)
+                generate(doc_root, next_rel_path, force_override)
         else:
             if f.endswith('.shtml'):
-                _generate(doc_root, os.path.join(rel_path, f))
+                _generate(doc_root, os.path.join(rel_path, f), force_override)
 
 def serve(doc_root, port):
     print(f'start httpd at {port}...')
@@ -223,6 +228,7 @@ if __name__ == '__main__':
         description='Simple HTTP server with SSI support.'
     )
     parser.add_argument('-g', '--generate', action='store_true', help='Generate HTML by expand SHTML.')
+    parser.add_argument('-f', '--force', action='store_true', help='Force override target HTML.')
     parser.add_argument('-d', '--dir', default='.', help='HTTP root dir. Default to "." (current dir)')
     parser.add_argument('-p', '--port', default=8000, type=int, help='HTTP server port. Default to 8000.')
 
@@ -232,7 +238,7 @@ if __name__ == '__main__':
 
     if args.generate:
         print(f'generating html files at {doc_root}...')
-        generate(doc_root, '')
+        generate(doc_root, '', args.force)
     else:
         serve(doc_root, port)
 </textarea>
