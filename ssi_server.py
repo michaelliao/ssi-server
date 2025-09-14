@@ -73,7 +73,7 @@ def _generate(doc_root, fs, force_overwrite):
                 exit(1)
             else:
                 print(f'WARNING: target file exist and it seems not auto-generated: {fh}')
-    with open(fh, 'w', encoding='utf-8') as fp:
+    with open(fh, 'w', encoding='utf-8', newline='\n') as fp:
         fp.write(html)
 
 def generate(doc_root, rel_path, force_override):
