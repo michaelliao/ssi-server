@@ -150,7 +150,7 @@ class SSIHTTPRequestHandler(BaseHTTPRequestHandler):
             path = urllib.parse.unquote(path, errors='surrogatepass')
         except UnicodeDecodeError:
             path = urllib.parse.unquote(path)
-        path = os.path.normpath(path)
+        path = os.path.normpath(path).replace('\\', '/')
         words = path.split('/')
         words = filter(None, words)
         path = self.directory
@@ -160,7 +160,7 @@ class SSIHTTPRequestHandler(BaseHTTPRequestHandler):
                 continue
             path = os.path.join(path, word)
         if trailing_slash:
-            path += '/index.html'
+            path = os.path.join(path, 'index.html')
         return path
 
 if __name__ == '__main__':
